@@ -5,6 +5,9 @@
 
 var map = L.map('map').setView([40.71,-73.93], 11);
 
+
+
+
 // set a tile layer to be CartoDB tiles 
 var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -17,23 +20,10 @@ var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/
 // add these tiles to our map
 map.addLayer(Stamen_Toner);
 
+// create control for geocoding
+L.Control.geocoder().addTo(map);
 
-// use jQuery get geoJSON to grab geoJson layer, parse it, then plot it on the map using the plotDataset function
-// let's add the subway lines
-$.getJSON( "geojson/MTA_subway_lines.geojson", function( data ) {
-    // ensure jQuery has pulled all data out of the geojson file
-    var dataset = data;
-    // draw the dataset on the map
-    //L.geoJson(dataset).addTo(map);
-});
 
-// let's add neighborhood data
-$.getJSON( "geojson/NYC_neighborhood_data.geojson", function( data ) {
-    // ensure jQuery has pulled all data out of the geojson file
-    var dataset = data;
-    // draw the dataset on the map
-    //L.geoJson(dataset).addTo(map);
-});
 
 var salesGeoJSON
 
@@ -47,14 +37,19 @@ $.getJSON( "geojson/sales.geojson", function( data ) {
     // dots
     var salesDisplay = function (feature, latlng){
         var salesMarker = L.circleMarker(latlng, {
-            stroke: false,
-            fillColor: '#2ca25f',
-            fillOpacity: 0.5
+            stroke: 3,
+            color: '#2ca25f',
+            radius: 11,
+            // fillColor: '#2ca25f',
+            // fillOpacity: 0.5
         });
         
+        
+
         return salesMarker;  
     }
 
+    
     var salesClick = function (feature, layer) {
 
         // let's bind some feature properties to a pop up
@@ -89,12 +84,15 @@ $.getJSON( "geojson/hpdcomplaints.geojson", function( data ) {
     // dots
     var hpdcomplaintsDisplay = function (feature, latlng){
         var hpdcomplaintsMarker = L.circleMarker(latlng, {
-            stroke: false,
-            fillColor: '#b53fa3',
-            fillOpacity: 0.5,
-            radius: 2
+            stroke: 3,
+            color:'#b53fa3',
+            opacity: 1,
+            // fillColor: '#b53fa3',
+            // fillOpacity: 0.5,
+            radius: 7
         });
         
+
         return hpdcomplaintsMarker;  
     }
 
@@ -116,7 +114,56 @@ $.getJSON( "geojson/hpdcomplaints.geojson", function( data ) {
 
 });
 
+var hpdviolsGeoJSON
 
+// let's add DOB complaints data
+$.getJSON( "geojson/hpdviols.geojson", function( data ) {
+    // ensure jQuery has pulled all data out of the geojson file
+    var hpdviols = data;
+
+    console.log(hpdviols)
+
+    // dots
+    var hpdviolsDisplay = function (feature, latlng){
+        var hpdviolsMarker = new L.RegularPolygonMarker(latlng,{
+            numberOfSides: 4,
+            rotation: 45.0,
+            radiusX: 25,
+            radiusY: 4,
+            fillOpacity: 0.8,
+            fillColor: '#ea1943',
+            weight: 2,
+            opacity: 0.8,
+            color: '#ea1943',
+            gradient: false
+        });
+        
+        
+        return hpdviolsMarker;  
+    
+    }
+
+    var hpdviolsClick = function (feature, layer) {
+
+        // let's bind some feature properties to a pop up
+        layer.bindPopup("<strong>BBL:</strong> " + feature.properties.BBL + 
+        "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
+        "<br /><strong>Class A Violations:</strong> " + feature.properties.v_class_a +
+        "<br /><strong>Class B Violations:</strong> " + feature.properties.v_class_b +
+        "<br /><strong>Class C Violations:</strong> " + feature.properties.v_class_c +
+        "<br /><strong>Total Violations:</strong> " + feature.properties.v_total 
+        
+    
+    );
+    }
+
+    hpdviolsGeoJSON = L.geoJson(hpdviols, {
+        pointToLayer: hpdviolsDisplay,
+        onEachFeature: hpdviolsClick
+    }).addTo(map);
+
+
+});
 
 
 var dobcomplaintsGeoJSON
@@ -131,10 +178,13 @@ $.getJSON( "geojson/dobcomplaints.geojson", function( data ) {
     // dots
     var dobcomplaintsDisplay = function (feature, latlng){
         var dobcomplaintsMarker = L.circleMarker(latlng, {
-            stroke: false,
-            fillColor: '#3f74b5',
-            fillOpacity: 0.5
+            stroke: 2,
+            color: '#3f74b5',
+            radius: 8
+            // fillColor: '#3f74b5',
+            // fillOpacity: 0.5
         });
+
         
         return dobcomplaintsMarker;  
     }

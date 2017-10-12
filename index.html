@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello!</title>
+    <title>DAP Details</title>
     <meta charset="utf-8" />
     <!-- For full screen Leaflet maps, add the following meta tag to set parameters in the viewport-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Including Leaflet CSS -->
     <link type="text/css" rel="stylesheet" href="libraries/leaflet-1.2/leaflet.css"/>
+    <!-- Including Leaflet Control CSS -->
+    <link href="libraries/leaflet-control-geocoder/Control.Geocoder.css" type="text/css" rel="stylesheet" />
     <!-- Including our custom CSS -->
     <link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
+
+
+ 
+
+
   </head>
   <body>
   	<div id="map"></div>
@@ -23,6 +30,13 @@
   <!-- Including leaflet-omnivore Library -->
   <script type="text/javascript" src="libraries/leaflet-omnivore/leaflet-omnivore.min.js"></script>
 
+  <!-- Including leaflet-control-geocoder Library -->
+  <script type="text/javascript" src="libraries/leaflet-control-geocoder/Control.Geocoder.js"></script>
+  
+  <script type="text/javascript" src="libraries/leaflet-dvf-1.0dev/dist/leaflet-dvf.js"></script>
+  
+
   <!-- Including our custom Javascript -->  
   <script type="text/javascript" src="js/script.js"></script>
+
 </html>
