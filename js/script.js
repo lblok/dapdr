@@ -3,7 +3,7 @@
 // This script demonstrates some simple things one can do with leaflet.js
 
 
-var map = L.map('map').setView([40.71,-73.93], 11);
+var map = L.map('map').setView([40.71,-73.93], 14);
 
 
 
@@ -23,7 +23,9 @@ map.addLayer(Stamen_Toner);
 // create control for geocoding
 L.Control.geocoder().addTo(map);
 
-
+var diamondlen = 40
+var diamondwid = 6
+var fillopac = 0.9
 
 var salesGeoJSON
 
@@ -36,12 +38,17 @@ $.getJSON( "geojson/sales.geojson", function( data ) {
 
     // dots
     var salesDisplay = function (feature, latlng){
-        var salesMarker = L.circleMarker(latlng, {
-            stroke: 3,
-            color: '#2ca25f',
-            radius: 11,
-            // fillColor: '#2ca25f',
-            // fillOpacity: 0.5
+        var salesMarker = new L.RegularPolygonMarker(latlng,{
+            numberOfSides: 4,
+            rotation: 0,
+            radiusX: diamondlen,
+            radiusY: diamondwid,
+            fillOpacity: fillopac,
+            fillColor: '#9354BC',
+            stroke: false,
+            opacity: 0.8,
+            color: '#9354BC',
+            gradient: false
         });
         
         
@@ -50,21 +57,23 @@ $.getJSON( "geojson/sales.geojson", function( data ) {
     }
 
     
-    var salesClick = function (feature, layer) {
+    var sidebarpopup (feature, layer) {
 
         // let's bind some feature properties to a pop up
-        layer.bindPopup("<strong>BBL:</strong> " + feature.properties.BBL + 
+        layer.on("block", function(event) {
+        $("<strong>BBL:</strong> " + feature.properties.BBL + 
         "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
         "<br /><strong>Residential Units:</strong> " + feature.properties.pluto_resu +
         "<br /><strong>Sale Date:</strong> " + feature.properties._saledate +
         "<br /><strong>Sale Price:</strong> " + feature.properties.price +
         "<br /><strong>Price Per Gross Sq Ft ($/gsf):</strong> " + feature.properties.ppgsf3
+        )}
     );
-    }
+    
 
     salesGeoJSON = L.geoJson(sales, {
         pointToLayer: salesDisplay,
-        onEachFeature: salesClick
+        onEachFeature: sidebarpopup
     }).addTo(map);
 
 
@@ -83,13 +92,17 @@ $.getJSON( "geojson/hpdcomplaints.geojson", function( data ) {
 
     // dots
     var hpdcomplaintsDisplay = function (feature, latlng){
-        var hpdcomplaintsMarker = L.circleMarker(latlng, {
-            stroke: 3,
-            color:'#b53fa3',
-            opacity: 1,
-            // fillColor: '#b53fa3',
-            // fillOpacity: 0.5,
-            radius: 7
+        var hpdcomplaintsMarker = new L.RegularPolygonMarker(latlng,{
+            numberOfSides: 4,
+            rotation: 72,
+            radiusX: diamondlen,
+            radiusY: diamondwid,
+            fillOpacity: fillopac,
+            fillColor: '#FED766',
+            stroke: false,
+            opacity: 0.8,
+            color: '#FED766',
+            gradient: false
         });
         
 
@@ -127,14 +140,14 @@ $.getJSON( "geojson/hpdviols.geojson", function( data ) {
     var hpdviolsDisplay = function (feature, latlng){
         var hpdviolsMarker = new L.RegularPolygonMarker(latlng,{
             numberOfSides: 4,
-            rotation: 45.0,
-            radiusX: 25,
-            radiusY: 4,
-            fillOpacity: 0.8,
-            fillColor: '#ea1943',
-            weight: 2,
+            rotation: 144.0,
+            radiusX: diamondlen,
+            radiusY: diamondwid,
+            fillOpacity: fillopac,
+            fillColor: '#157AA5',
+            stroke: false,
             opacity: 0.8,
-            color: '#ea1943',
+            color: '#157AA5',
             gradient: false
         });
         
@@ -177,12 +190,17 @@ $.getJSON( "geojson/dobcomplaints.geojson", function( data ) {
 
     // dots
     var dobcomplaintsDisplay = function (feature, latlng){
-        var dobcomplaintsMarker = L.circleMarker(latlng, {
-            stroke: 2,
-            color: '#3f74b5',
-            radius: 8
-            // fillColor: '#3f74b5',
-            // fillOpacity: 0.5
+        var dobcomplaintsMarker = new L.RegularPolygonMarker(latlng,{
+            numberOfSides: 4,
+            rotation: 216.0,
+            radiusX: diamondlen,
+            radiusY: diamondwid,
+            fillOpacity: fillopac,
+            fillColor: '#66D13C',
+            stroke: false,
+            opacity: 0.8,
+            color: '#66D13C',
+            gradient: false
         });
 
         
@@ -208,3 +226,48 @@ $.getJSON( "geojson/dobcomplaints.geojson", function( data ) {
 });
 
 
+var dobjobsGeoJSON
+
+// let's add DOB jobs data
+$.getJSON( "geojson/dobjobs.geojson", function( data ) {
+    // ensure jQuery has pulled all data out of the geojson file
+    var dobjobs = data;
+
+    console.log(dobcjobs)
+
+    // dots
+    var dobjobsDisplay = function (feature, latlng){
+        var dobjobsMarker = new L.RegularPolygonMarker(latlng,{
+            numberOfSides: 4,
+            rotation: 216.0,
+            radiusX: diamondlen,
+            radiusY: diamondwid,
+            fillOpacity: fillopac,
+            fillColor: '#EA1943',
+            stroke: false,
+            opacity: 0.8,
+            color: '#EA1943',
+            gradient: false
+        });
+
+        
+        return dobjobsMarker;  
+    }
+
+    var dobjobsClick = function (feature, layer) {
+
+        // let's bind some feature properties to a pop up
+        layer.bindPopup("<strong>BBL:</strong> " + feature.properties.BBL + 
+        "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
+        "<br /><strong>DOB Complaints:</strong> " + feature.properties._dobcompla
+    
+    );
+    }
+
+    dobjobsGeoJSON = L.geoJson(dobjobs, {
+        pointToLayer: dobjobsDisplay,
+        onEachFeature: dobjobsClick
+    }).addTo(map);
+
+
+});
