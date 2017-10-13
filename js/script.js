@@ -56,29 +56,47 @@ $.getJSON( "geojson/sales.geojson", function( data ) {
         return salesMarker;  
     }
 
-    
-    var sidebarpopup (feature, layer) {
+    var popup = new L.Popup();
 
-        // let's bind some feature properties to a pop up
-        layer.on("block", function(event) {
-        $("<strong>BBL:</strong> " + feature.properties.BBL + 
-        "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
+    function popups (feature, layer) {
+
+        // let's bind some feature properties to a pop up with an .on("click", ...) command. We do this so we can fire it both on and off the map
+        layer.on("mouseover", function (e) {
+        var bounds = layer.getBounds();
+        var popupContent = 
+        "<strong><font size='3'>Sales</strong>" + 
+        "<br /><font size='2'><strong>Address:</strong> " + feature.properties.pluto_addr +
         "<br /><strong>Residential Units:</strong> " + feature.properties.pluto_resu +
-        "<br /><strong>Sale Date:</strong> " + feature.properties._saledate +
+        "<br /><strong>Sale Date:</strong> " + feature.properties._saledate + 
         "<br /><strong>Sale Price:</strong> " + feature.properties.price +
-        "<br /><strong>Price Per Gross Sq Ft ($/gsf):</strong> " + feature.properties.ppgsf3
-        )}
-    );
-    
+        "<br /><strong>Price / Gross Sq Ft:</strong> " + feature.properties.ppgsf3;
+        popup.setLatLng(bounds.getCenter());
+        popup.setContent(popupContent);
+        map.openPopup(popup);
+        });
+
+        layer.on("mouseout", function (e) {
+            map.closePopup(popup);
+            });
+
+        layer.on("click", function(event) {
+            $('#sidebar').html("<font size ='2' ><div style='margin-bottom: 10';>BBL:  " + feature.properties.BBL + 
+            "</div><br /><font size='4' style='font-family:Gill Sans,Arial, serif'><u>Sales</u> " +             
+            "</div><br /><font size='2'>" + feature.properties.pluto_addr +
+            "<br /><font size= '3'>Residential Units:  " + feature.properties.pluto_resu +
+            "<br />Sale Date:  " + feature.properties._saledate +
+            "<br />Sale Price:  " + feature.properties.price +
+            "<br />Price / Gross Sq Ft:  " + feature.properties.ppgsf3)
+            })
+    };
 
     salesGeoJSON = L.geoJson(sales, {
         pointToLayer: salesDisplay,
-        onEachFeature: sidebarpopup
+        onEachFeature: popups
     }).addTo(map);
 
 
 });
-
 
 
 var hpdcomplaintsGeoJSON
@@ -105,23 +123,43 @@ $.getJSON( "geojson/hpdcomplaints.geojson", function( data ) {
             gradient: false
         });
         
-
         return hpdcomplaintsMarker;  
     }
 
-    var hpdcomplaintsClick = function (feature, layer) {
-
-        // let's bind some feature properties to a pop up
-        layer.bindPopup("<strong>BBL:</strong> " + feature.properties.BBL + 
-        "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
-        "<br /><strong>HPD Complaints:</strong> " + feature.properties._hpdcompla
+    var popup = new L.Popup();
     
-    );
-    }
+        function popups (feature, layer) {
+    
+            // let's bind some feature properties to a pop up with an .on("click", ...) command. We do this so we can fire it both on and off the map
+            layer.on("mouseover", function (e) {
+            var bounds = layer.getBounds();
+            var popupContent = 
+            "<strong><font size='3'>HPD Complaints</strong>" + 
+            "<br /><font size='2'><strong>Address:</strong> " + feature.properties.pluto_addr +
+            "<br /><strong>Residential Units:</strong> " + feature.properties.pluto_resu +
+            "<br /><strong>Complaints:</strong> " + feature.properties._hpdcompla;
+            popup.setLatLng(bounds.getCenter());
+            popup.setContent(popupContent);
+            map.openPopup(popup);
+            });
+    
+            layer.on("mouseout", function (e) {
+                map.closePopup(popup);
+                });
+    
+            layer.on("click", function(event) {
+                $('#sidebar').html
+                ("<font size ='2' ><div style='margin-bottom: 10';>BBL:  " + feature.properties.BBL + 
+                "</div><br /><font size='4' style='font-family:Gill Sans,Arial, serif'><u>HPD Complaints</u> " +             
+                "</div><br /><font size='2'>" + feature.properties.pluto_addr +
+                "<br /><font size= '3'>Residential Units:  " + feature.properties.pluto_resu +
+                "<br />Complaints:  " + feature.properties._hpdcompla)
+                })
+        };
 
     hpdomplaintsGeoJSON = L.geoJson(hpdcomplaints, {
         pointToLayer: hpdcomplaintsDisplay,
-        onEachFeature: hpdcomplaintsClick
+        onEachFeature: popups
     }).addTo(map);
 
 
@@ -156,23 +194,48 @@ $.getJSON( "geojson/hpdviols.geojson", function( data ) {
     
     }
 
-    var hpdviolsClick = function (feature, layer) {
-
-        // let's bind some feature properties to a pop up
-        layer.bindPopup("<strong>BBL:</strong> " + feature.properties.BBL + 
-        "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
-        "<br /><strong>Class A Violations:</strong> " + feature.properties.v_class_a +
-        "<br /><strong>Class B Violations:</strong> " + feature.properties.v_class_b +
-        "<br /><strong>Class C Violations:</strong> " + feature.properties.v_class_c +
-        "<br /><strong>Total Violations:</strong> " + feature.properties.v_total 
-        
+    var popup = new L.Popup();
     
-    );
-    }
+        function popups (feature, layer) {
+    
+            // let's bind some feature properties to a pop up with an .on("click", ...) command. We do this so we can fire it both on and off the map
+            layer.on("mouseover", function (e) {
+            var bounds = layer.getBounds();
+            var popupContent = 
+            "<strong><font size='3'>HPD Violations</strong>" + 
+            "<br /><font size='2'><strong>Address:</strong> " + feature.properties.pluto_addr +
+            "<br /><strong>Residential Units:</strong> " + feature.properties.pluto_resu +
+            "<br /><strong>Class A:</strong> " + feature.properties.v_class_a + 
+            "<br /><strong>Class B:</strong> " + feature.properties.v_class_b +
+            "<br /><strong>Class C:</strong> " + feature.properties.v_class_c +
+            "<br /><strong>Total:</strong> " + feature.properties.v_total 
+            
+            
+            popup.setLatLng(bounds.getCenter());
+            popup.setContent(popupContent);
+            map.openPopup(popup);
+            });
+    
+            layer.on("mouseout", function (e) {
+                map.closePopup(popup);
+                });
+    
+            layer.on("click", function(event) {
+                $('#sidebar').html("<font size ='2'><div style='margin-bottom: 10';>BBL:  " + feature.properties.BBL + 
+                "</div><br /><font size='4' style='font-family:Gill Sans,Arial, serif'><u>HPD Violations</u> " +             
+                "</div><br /><font size='2'>" + feature.properties.pluto_addr +
+                "<br /><font size = '3'>Residential Units: " + feature.properties.pluto_resu +
+                "<br />Class A:  " + feature.properties.v_class_a +
+                "<br />Class B:  " + feature.properties.v_class_b + 
+                "<br />Class C:  " + feature.properties.v_class_b + 
+                "<br />Total:  " + feature.properties.v_total 
+            ) 
+                })
+        };
 
     hpdviolsGeoJSON = L.geoJson(hpdviols, {
         pointToLayer: hpdviolsDisplay,
-        onEachFeature: hpdviolsClick
+        onEachFeature: popups
     }).addTo(map);
 
 
@@ -207,19 +270,41 @@ $.getJSON( "geojson/dobcomplaints.geojson", function( data ) {
         return dobcomplaintsMarker;  
     }
 
-    var dobcomplaintsClick = function (feature, layer) {
-
-        // let's bind some feature properties to a pop up
-        layer.bindPopup("<strong>BBL:</strong> " + feature.properties.BBL + 
-        "<br /><strong>Address:</strong> " + feature.properties.pluto_addr +
-        "<br /><strong>DOB Complaints:</strong> " + feature.properties._dobcompla
+    var popup = new L.Popup();
     
-    );
-    }
+        function popups (feature, layer) {
+    
+            // let's bind some feature properties to a pop up with an .on("click", ...) command. We do this so we can fire it both on and off the map
+            layer.on("mouseover", function (e) {
+            var bounds = layer.getBounds();
+            var popupContent = 
+            "<strong><font size='3'>DOB Complaints</strong>" + 
+            "<br /><font size='2'><strong>Address:</strong> " + feature.properties.pluto_addr +
+            "<br /><strong>Residential Units:</strong> " + feature.properties.pluto_resu +
+            "<br /><strong>Complaints:</strong> " + feature.properties._dobcompla;
+            popup.setLatLng(bounds.getCenter());
+            popup.setContent(popupContent);
+            map.openPopup(popup);
+            });
+    
+            layer.on("mouseout", function (e) {
+                map.closePopup(popup);
+                });
+    
+            layer.on("click", function(event) {
+                $('#sidebar').html
+                ("<font size ='2' ><div style='margin-bottom: 10';>BBL:  " + feature.properties.BBL + 
+                "</div><br /><font size='4' style='font-family:Gill Sans,Arial, serif'><u>DOB Complaints</u> " +             
+                "</div><br /><font size='2'>" + feature.properties.pluto_addr +
+                "<br /><font size= '3'>Residential Units:  " + feature.properties.pluto_resu +
+                "<br />Complaints:  " + feature.properties._dobcompla)
+                })
+        };
+
 
     dobcomplaintsGeoJSON = L.geoJson(dobcomplaints, {
         pointToLayer: dobcomplaintsDisplay,
-        onEachFeature: dobcomplaintsClick
+        onEachFeature: popups
     }).addTo(map);
 
 
@@ -233,7 +318,7 @@ $.getJSON( "geojson/dobjobs.geojson", function( data ) {
     // ensure jQuery has pulled all data out of the geojson file
     var dobjobs = data;
 
-    console.log(dobcjobs)
+    console.log(dobjobs)
 
     // dots
     var dobjobsDisplay = function (feature, latlng){
@@ -254,6 +339,48 @@ $.getJSON( "geojson/dobjobs.geojson", function( data ) {
         return dobjobsMarker;  
     }
 
+
+    var popup = new L.Popup();
+    
+        function popups (feature, layer) {
+    
+            // let's bind some feature properties to a pop up with an .on("click", ...) command. We do this so we can fire it both on and off the map
+            layer.on("mouseover", function (e) {
+            var bounds = layer.getBounds();
+            var popupContent = 
+            "<strong><font size='3'>DOB Permit Applications</strong>" + 
+            "<br /><font size='2'><strong>Address:</strong> " + feature.properties.pluto_addr +
+            "<br /><strong>Residential Units:</strong> " + feature.properties.pluto_resu +
+            "<br /><strong>Alt 1:</strong> " + feature.properties._a1 +
+            "<br /><strong>Alt 2:</strong> " + feature.properties._a2 +
+            "<br /><strong>Demolition:</strong> " + feature.properties._dm
+            
+            ;
+            popup.setLatLng(bounds.getCenter());
+            popup.setContent(popupContent);
+            map.openPopup(popup);
+            });
+    
+            layer.on("mouseout", function (e) {
+                map.closePopup(popup);
+                });
+    
+            layer.on("click", function(event) {
+                $('#sidebar').html
+                ("<font size ='2' ><div style='margin-bottom: 10';>BBL:  " + feature.properties.BBL + 
+                "</div><br /><font size='4' style='font-family:Gill Sans,Arial, serif'><u>DOB Permit Applications</u> " +             
+                "</div><br /><font size='2'>" + feature.properties.pluto_addr +
+                "<br /><font size= '3'>Residential Units:  " + feature.properties.pluto_resu +
+                "<br />Alt 1:  " + feature.properties._a1 +
+                "<br />Alt 1:  " + feature.properties._a2 +
+                "<br />Alt 1:  " + feature.properties._dm
+            )
+                })
+        };
+
+
+
+
     var dobjobsClick = function (feature, layer) {
 
         // let's bind some feature properties to a pop up
@@ -266,7 +393,7 @@ $.getJSON( "geojson/dobjobs.geojson", function( data ) {
 
     dobjobsGeoJSON = L.geoJson(dobjobs, {
         pointToLayer: dobjobsDisplay,
-        onEachFeature: dobjobsClick
+        onEachFeature: popups
     }).addTo(map);
 
 
