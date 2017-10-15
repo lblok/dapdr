@@ -36,3 +36,76 @@ body {
 .circle {
 	background-color: #909090;
 }
+
+.popupfont {
+    font-family: Gill Sans,Arial, serif;
+}
+
+.btn-primary, .btn-primary:focus {
+  color: #ffffff;
+  background-color: #9354BC;
+  border-color: #9354BC;
+  border-width: 2px;  
+}
+
+.btn-primary:hover {
+    color: #ffffff;
+    background-color: #9354BC;
+    border-color: #454444;
+    border-width: 2px;
+}
+
+.btn-danger, .btn-danger:focus {
+    color: #000000;
+    background-color: #FED766;
+    border-color: #FED766;
+    border-width: 2px;    
+}
+
+.btn-danger:hover {
+    color: #000000;
+    background-color: #FED766;
+    border-color: #454444;
+    border-width: 2px;}
+
+.btn-secondary, .btn-secondary:focus {
+    color: #ffffff;
+    background-color: #157AA5;
+    border-color: #157AA5;
+    border-width: 2px;    
+}
+
+.btn-secondary:hover {
+    color: #ffffff;
+    background-color: #157AA5;
+    border-color: #454444;
+    border-width: 2px;
+}
+
+.btn-success, .btn-success:focus {
+    color: #ffffff;
+    background-color: #66D13C;
+    border-color: #66D13C;
+    border-width: 2px;    
+}
+
+.btn-success:hover {
+    color: #ffffff;
+    background-color: #66D13C;
+    border-color: #454444;
+    border-width: 2px;
+}
+
+.btn-warning, .btn-warning:focus {
+    color: #ffffff;
+    background-color: #EA1943;
+    border-color: #EA1943;
+    border-width: 2px;    
+}
+
+.btn-warning:hover {
+    color: #ffffff;
+    background-color: #EA1943;
+    border-color: #454444;
+    border-width: 2px;
+}
