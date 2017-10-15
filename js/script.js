@@ -408,7 +408,38 @@ $(function(){
                 map.addLayer(hpdcomplaintsGeoJSON);
                 
             }
+
+        }); 
+
+        $('#hpdviolsData').click(function(){
+            if(map.hasLayer(hpdviolsGeoJSON)) {
+                map.removeLayer(hpdviolsGeoJSON)
+            } else {
+                map.addLayer(hpdviolsGeoJSON);
+                
+            }
+
+        });       
+         
+        $('#dobcomplaintsData').click(function(){
+            if(map.hasLayer(dobcomplaintsGeoJSON)) {
+                map.removeLayer(dobcomplaintsGeoJSON)
+            } else {
+                map.addLayer(dobcomplaintsGeoJSON);
+                
+            }
         });
+
+        $('#dobjobsData').click(function(){
+            if(map.hasLayer(dobjobsGeoJSON)) {
+                map.removeLayer(dobjobsGeoJSON)
+            } else {
+                map.addLayer(dobjobsGeoJSON);
+                
+            }
+        });
+
+
     }
 
 
