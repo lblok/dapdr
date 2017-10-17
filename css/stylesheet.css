@@ -8,7 +8,6 @@ body {
     height: calc(100vh);
 }
 
-
 .popupfont {
     font-family: Gill Sans,Arial, serif;
 }
@@ -22,8 +21,6 @@ body {
     font-size: 12px;
     
 }
-
-
 
 .btnpos {
     text-align:center; 

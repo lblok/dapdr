@@ -4,7 +4,7 @@ $(function(){
 
 
 
-    var map = L.map('map').setView([40.71,-73.93], 14);
+    var map = L.map('map').setView([40.6721198,-73.9365252], 14);
 
 
 
